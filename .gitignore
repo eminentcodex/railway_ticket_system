@@ -1,4 +1,4 @@
 vendor
 bin/server
 bin/client
-bin/__debug*
+bin/server_debug

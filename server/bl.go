@@ -107,3 +107,11 @@ func UpdateUserSeat(tickets map[string]map[int32]*ticket.ReceiptResponse, ticket
 	_ = GenerateTicket(tickets, section, seat, oldTicket.TicketID, ticketRequest)
 	return true
 }
+
+func CheckSetAvailability(tickets map[string]map[int32]*ticket.ReceiptResponse, section string, seat int32) bool {
+	if _, ok := tickets[section][seat]; ok {
+		return false // seat exists can't book
+	}
+
+	return true
+}

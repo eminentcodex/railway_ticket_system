@@ -77,6 +77,9 @@ func (s *Server) RemoveUser(ctx context.Context, request *ticket.RemoveUserReque
 	return response, nil
 }
 func (s *Server) UpdateUserSeat(ctx context.Context, request *ticket.UpdateUserSeatRequest) (*ticket.UpdateUserSeatResponse, error) {
+	if !CheckSetAvailability(s.Tickets, request.GetSection(), request.GetSeat()) {
+		return nil, errors.New("seat is not available")
+	}
 	updated := UpdateUserSeat(s.Tickets, request.GetTicketID(), request.GetSection(), request.GetSeat())
 	response := &ticket.UpdateUserSeatResponse{}
 	if updated {
