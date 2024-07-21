@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build",
+        "type": "shell",
+        "command": "go build -o ${workspaceFolder}/bin/main ${workspaceFolder}/server/main.go",
+        "group": "build",
+        "problemMatcher": ["$go"],
+        "detail": "Build the current project"
+      },
+      {
+        "label": "run",
+        "type": "shell",
+        "command": "${workspaceFolder}/bin/main",
+        "group": "build",
+        "problemMatcher": ["$go"],
+        "detail": "Run the current project"
+      }
+    ]
+  }

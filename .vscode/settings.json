@@ -1,0 +1,8 @@
+{
+    "go.gopath": "${workspaceFolder}/.gopath",
+    // "go.testEnvVars": {
+    //   "GO111MODULE": "on",
+    //   "GOPROXY": "https://proxy.golang.org"
+    // },
+    "go.useLanguageServer": true
+  }

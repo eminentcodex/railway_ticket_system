@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package ticket;
+
+option go_package = "./ticket";
+
+
+service RailwayService {
+    rpc PurchaseTicket(PurchaseTicketRequest) returns (ReceiptResponse);
+    rpc GetReceipt(ReceiptRequest) returns (ReceiptResponse);
+    rpc GetUserBySection(SectionUserRequest) returns (SectionUserResonse);
+    rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse);
+    rpc UpdateUserSeat(UpdateUserSeatRequest) returns (UpdateUserSeatResponse);
+}
+
+message PurchaseTicketRequest {
+    string From = 1;
+    string To = 2;
+    User User = 3;
+    float Price = 4;
+}
+
+message User {
+    string FirstName = 1;
+    string LastName = 2;
+    string Email = 3;
+}
+
+message ReceiptRequest {
+    string TicketID = 1;
+}
+
+message ReceiptResponse {
+    string TicketID = 1;
+    string From = 2;
+    string To = 3;
+    User User = 4;
+    float Price = 5;
+    string Section = 6;
+    int32 Seat = 7;
+}
+
+message SectionUserRequest {
+    string Section = 1;
+}
+
+message SectionUserResonse {
+    repeated User users = 1;
+}
+
+message RemoveUserRequest {
+    string Email = 1;
+}
+
+message RemoveUserResponse {
+    string Message = 1;
+}
+
+message UpdateUserSeatRequest {
+    string TicketID = 1;
+    string Section = 2;
+    int32 Seat = 3;
+}
+
+message UpdateUserSeatResponse {
+    string Message = 1;
+}
+
+
+
