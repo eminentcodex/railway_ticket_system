@@ -2,8 +2,6 @@ package main
 
 import (
 	"eminentcodex/railway_ticket_system/protos/ticket"
-	"fmt"
-	"time"
 )
 
 func CheckAvailableSection(totalSeats map[string]map[int32]*ticket.ReceiptResponse, totalSeatsPerSection int) (string, int32) {
@@ -28,9 +26,9 @@ func AddUser(users map[string]*ticket.User, request *ticket.PurchaseTicketReques
 	}
 }
 
-func GenerateTicket(totalSeats map[string]map[int32]*ticket.ReceiptResponse, assignedSection string, seatNum int32, request *ticket.PurchaseTicketRequest) *ticket.ReceiptResponse {
+func GenerateTicket(totalSeats map[string]map[int32]*ticket.ReceiptResponse, assignedSection string, seatNum int32, ticketID string, request *ticket.PurchaseTicketRequest) *ticket.ReceiptResponse {
 	newTicket := &ticket.ReceiptResponse{
-		TicketID: fmt.Sprintf("T%d", time.Now().Unix()),
+		TicketID: ticketID,
 		From:     request.From,
 		To:       request.To,
 		User:     request.User,
@@ -39,6 +37,7 @@ func GenerateTicket(totalSeats map[string]map[int32]*ticket.ReceiptResponse, ass
 		Seat:     seatNum,
 	}
 	totalSeats[assignedSection][seatNum] = newTicket
+
 	return newTicket
 }
 
@@ -76,16 +75,20 @@ func RemoveUser(users map[string]*ticket.User, email string) bool {
 func UpdateUserSeat(tickets map[string]map[int32]*ticket.ReceiptResponse, ticketID string, section string, seat int32) bool {
 	// remove the ticket first
 	found := false
-	var oldSection string
-	var oldSeat int32
-	var oldTicket *ticket.ReceiptResponse
+	var (
+		oldSection string
+		oldSeat    int32
+		oldTicket  *ticket.ReceiptResponse
+	)
+
 	for s1, sectionTickets := range tickets {
-		oldSection = s1
 		for s2, t := range sectionTickets {
 			oldSeat = s2
 			if ticketID == t.TicketID {
 				oldTicket = t
+				oldSection = s1
 				found = true
+				break
 			}
 		}
 	}
@@ -100,6 +103,7 @@ func UpdateUserSeat(tickets map[string]map[int32]*ticket.ReceiptResponse, ticket
 		User:  oldTicket.User,
 		Price: oldTicket.Price,
 	}
-	_ = GenerateTicket(tickets, section, seat, ticketRequest)
+
+	_ = GenerateTicket(tickets, section, seat, oldTicket.TicketID, ticketRequest)
 	return true
 }

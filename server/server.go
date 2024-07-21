@@ -4,6 +4,8 @@ import (
 	"context"
 	"eminentcodex/railway_ticket_system/protos/ticket"
 	"errors"
+	"fmt"
+	"time"
 
 	"google.golang.org/grpc"
 )
@@ -37,7 +39,8 @@ func (s *Server) PurchaseTicket(ctx context.Context, request *ticket.PurchaseTic
 	// add user
 	AddUser(s.Users, request)
 	// create a ticket using the available section
-	newTicket := GenerateTicket(s.Tickets, assignedSection, seatNum, request)
+	ticketID := fmt.Sprintf("T%d", time.Now().Unix())
+	newTicket := GenerateTicket(s.Tickets, assignedSection, seatNum, ticketID, request)
 
 	return newTicket, nil
 }
