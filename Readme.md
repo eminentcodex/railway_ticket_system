@@ -1,4 +1,4 @@
-### Railway Ticket System
+# Railway Ticket System
 
 ## Steps to comile and build
 1. Compile the protobuf
@@ -24,4 +24,10 @@ make run-server
 2. Run client
 ```shell
 make run-client
+```
+
+## Run test cases
+1. Run server test cases
+```shell
+make test-server
 ```
