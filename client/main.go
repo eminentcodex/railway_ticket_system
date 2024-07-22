@@ -14,7 +14,7 @@ func main() {
 	opts := grpc.WithTransportCredentials(insecure.NewCredentials())
 	conn, err := grpc.NewClient(address, opts)
 	if err != nil {
-		log.Fatalln("failed to connect to GRPC server with error %s", err.Error())
+		log.Fatalf("failed to connect to GRPC server with error %s\n", err.Error())
 	}
 	defer func() {
 		if conn != nil {

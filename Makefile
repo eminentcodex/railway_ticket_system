@@ -22,3 +22,7 @@ build-server:
 build-client:
 	rm -f bin/client
 	go build -o bin/client client/*
+
+.PHONY: test-server
+test-server:
+	go test ./server/...

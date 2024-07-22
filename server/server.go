@@ -33,6 +33,9 @@ func (s *Server) PurchaseTicket(ctx context.Context, request *ticket.PurchaseTic
 	// check if any section is available
 	var assignedSection string
 	var seatNum int32
+	if request.GetUser() == nil {
+		return nil, errors.New("user cannot be blank")
+	}
 	if assignedSection, seatNum = CheckAvailableSection(s.Tickets, s.TotalSeatsPerSection); assignedSection == "" {
 		return nil, errors.New("no seats available")
 	}
